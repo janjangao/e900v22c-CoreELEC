@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     tags:
-      - 'v*'  # 例如 v1.0.0 时触发
+      - '*'  # 例如 v1.0.0 时触发
   workflow_dispatch:
 
 jobs:
