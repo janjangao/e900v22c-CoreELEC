@@ -1,0 +1,33 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # 例如 v1.0.0 时触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y make gcc git texinfo gzip squashfs-tools
+
+      - name: Make build.sh executable
+        run: chmod +x ./build.sh
+
+      - name: Run build.sh
+        run: ./build.sh
+
+      # 假设 build.sh 生成 output.tar.gz，你可以根据实际文件名修改这里
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./output.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
