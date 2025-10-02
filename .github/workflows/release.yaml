@@ -43,13 +43,12 @@ jobs:
         with:
           tag_name: ${{ env.VERSION }}
           target_commitish: ${{ github.sha }}
-          name: Release CoreELEC_E900V22C_${{ env.VERSION }}
+          name: ${{ env.VERSION }}
           generate_release_notes: true
           draft: false
           prerelease: false
           fail_on_unmatched_files: true
           files: |
-            *.img
             *.img.gz
             *.img.gz.sha256
         env:
