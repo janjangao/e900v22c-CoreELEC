@@ -1,5 +1,5 @@
 #! /bin/sh
-version="20.1-Nexus"
+version="${VERSION:-20.5-Nexus}"
 source_img_name="CoreELEC-Amlogic-ng.arm-${version}-Generic"
 source_img_file="${source_img_name}.img.gz"
 source_img_url="https://github.com/CoreELEC/CoreELEC/releases/download/${version}/${source_img_name}.img.gz"
@@ -64,7 +64,7 @@ sudo sync
 sudo rm ${mount_point}/SYSTEM
 sudo mv SYSTEM ${mount_point}/SYSTEM
 sudo md5sum ${mount_point}/SYSTEM > SYSTEM.md5
-sudo mv SYSTEM.md5 target/SYSTEM.md5
+sudo mv SYSTEM.md5 ${mount_point}/SYSTEM.md5
 sudo rm -rf ${system_root}
 
 echo "Unmounting CoreELEC boot partition"

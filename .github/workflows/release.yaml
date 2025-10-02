@@ -1,0 +1,55 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+    inputs:
+      VERSION:
+        description: "CoreELEC version"
+        required: true
+        default: "20.5-Nexus"
+
+permissions:
+  contents: write
+
+env:
+  VERSION: ${{ github.event.inputs.VERSION || github.ref_name }}
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y build-essential texinfo gzip squashfs-tools
+
+      - name: Make build script executable
+        run: chmod +x build.sh
+
+      - name: Build
+        run: |
+          ./build.sh
+          echo "FILE_DATE=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+
+      - name: Create Release & Upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.VERSION }}
+          target_commitish: ${{ github.sha }}
+          name: CoreELEC-${{ env.VERSION }}-${{env.FILE_DATE}}
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+          fail_on_unmatched_files: true
+          files: |
+            *.img.gz
+            *.img.gz.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
