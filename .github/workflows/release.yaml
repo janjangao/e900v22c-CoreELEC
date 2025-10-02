@@ -36,20 +36,19 @@ jobs:
       - name: Build
         run: |
           ./build.sh
-          echo "FILE_DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+          echo "FILE_DATE=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
 
       - name: Create Release & Upload assets
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.VERSION }}
           target_commitish: ${{ github.sha }}
-          name: Release CoreELEC_E900V22C_${{ env.VERSION }}
+          name: ${{ env.VERSION }}
           generate_release_notes: true
           draft: false
           prerelease: false
           fail_on_unmatched_files: true
           files: |
-            *.img
             *.img.gz
             *.img.gz.sha256
         env:
