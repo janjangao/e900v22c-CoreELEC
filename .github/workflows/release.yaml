@@ -49,7 +49,6 @@ jobs:
           prerelease: false
           fail_on_unmatched_files: true
           files: |
-            *.img
             *.img.gz
             *.img.gz.sha256
         env:
