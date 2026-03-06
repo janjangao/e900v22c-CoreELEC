@@ -44,7 +44,7 @@ jobs:
           tag_name: ${{ env.VERSION }}
           target_commitish: ${{ github.sha }}
           name: ${{ env.VERSION }}
-          generate_release_notes: true
+          generate_release_notes: false
           draft: false
           prerelease: false
           fail_on_unmatched_files: true
